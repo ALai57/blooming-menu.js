@@ -83,23 +83,24 @@
   BloomingMenu.prototype.selectItem = function (index) {
     var self = this
 
-    var btnWrappers = document.querySelector('.' + self.props.CSSClassPrefix + ITEM_BTN_WRAPPER_CSS_CLASS)
-    var closeMenu = function () {
-      // Close the menu
-      self.close()
+    // var btnWrappers = document.querySelector('.' + self.props.CSSClassPrefix + ITEM_BTN_WRAPPER_CSS_CLASS)
+    var main_icon = document.getElementsByClassName('blooming-menu__main');
+    // var closeMenu = function () {
+    //   // Close the menu
+    //   self.close()
 
-      // Hide all the menu items
-      self.props.elements.items.forEach(function (item) {
-        item.style.display = 'none'
-      })
+    //   // Hide all the menu items
+    //   self.props.elements.items.forEach(function (item) {
+    //     item.style.display = 'none'
+    //   })
 
-      // Unbind the event listeners on `animationend`
-      document
-        .querySelector('.' + self.props.CSSClassPrefix + ITEM_BTN_WRAPPER_CSS_CLASS)
-        .removeEventListener(animationEndEventName(), closeMenu)
-    }
-    btnWrappers.addEventListener(animationEndEventName(), closeMenu)
-
+    //   // Unbind the event listeners on `animationend`
+    //   document
+    //     .querySelector('.' + self.props.CSSClassPrefix + ITEM_BTN_WRAPPER_CSS_CLASS)
+    //     .removeEventListener(animationEndEventName(), closeMenu)
+    // }
+    // btnWrappers.addEventListener(animationEndEventName(), closeMenu)
+    //  main_icon.addEventListener(animationEndEventName(), closeMenu)
     // Adding classes triggers an `animationend` event when the CSS animations
     // end, triggering the closeMenu callback.
     this.props.elements.items.forEach(function (item, index_) {
@@ -112,9 +113,9 @@
           .classList
           .add('is-selected')
 
-          var main_icon = document.getElementsByClassName('blooming-menu__main');
+          // var main_icon = document.getElementsByClassName('blooming-menu__main');
           //console.log(main_icon);
-          console.log(getComputedStyle(item.querySelector('button')));
+          // console.log(getComputedStyle(item.querySelector('button')));
           main_icon[0].style.backgroundImage = getComputedStyle(item.querySelector('button')).backgroundImage;
       }
     })
@@ -474,19 +475,19 @@
           '-webkit-animation-timing-function: ease-out;' +
         '}'
 
-      cssRules +=
-        '.' + cssClassPrefix + ITEM_CSS_CLASS + ':nth-of-type(' + (index + 1) + ').is-not-selected .' + cssClassPrefix + ITEM_BTN_WRAPPER_CSS_CLASS + ' {' +
-          'animation-name: ' + cssClassPrefix + 'not-select-item;' +
-          'animation-fill-mode: forwards;' +
-          'animation-duration: ' + props.animationDuration + 's;' +
-          'animation-timing-function: ease-out;' +
-        '}' +
-        '.' + cssClassPrefix + ITEM_CSS_CLASS + ':nth-of-type(' + (index + 1) + ').is-not-selected .' + cssClassPrefix + ITEM_BTN_WRAPPER_CSS_CLASS + ' {' +
-          '-webkit-animation-name: ' + cssClassPrefix + 'not-select-item;' +
-          '-webkit-animation-fill-mode: forwards;' +
-          '-webkit-animation-duration: ' + props.animationDuration + 's;' +
-          '-webkit-animation-timing-function: ease-out;' +
-        '}'
+      // cssRules +=
+      //   '.' + cssClassPrefix + ITEM_CSS_CLASS + ':nth-of-type(' + (index + 1) + ').is-not-selected .' + cssClassPrefix + ITEM_BTN_WRAPPER_CSS_CLASS + ' {' +
+      //     'animation-name: ' + cssClassPrefix + 'not-select-item;' +
+      //     'animation-fill-mode: forwards;' +
+      //     'animation-duration: ' + props.animationDuration + 's;' +
+      //     'animation-timing-function: ease-out;' +
+      //   '}' +
+      //   '.' + cssClassPrefix + ITEM_CSS_CLASS + ':nth-of-type(' + (index + 1) + ').is-not-selected .' + cssClassPrefix + ITEM_BTN_WRAPPER_CSS_CLASS + ' {' +
+      //     '-webkit-animation-name: ' + cssClassPrefix + 'not-select-item;' +
+      //     '-webkit-animation-fill-mode: forwards;' +
+      //     '-webkit-animation-duration: ' + props.animationDuration + 's;' +
+      //     '-webkit-animation-timing-function: ease-out;' +
+      //   '}'
 
       angleCur += angleStep
     })
@@ -498,19 +499,27 @@
           'transform: scale(1);' +
           'opacity: 1;' +
         '}' +
-        '100% {' +
+        '50% {' +
           'transform: scale(2);' +
           'opacity: 0;' +
+        '}' +
+        '100% {' +
+          'transform: scale(1);' +
+          'opacity: 1;' +
         '}' +
       '}' +
       '@-webkit-keyframes ' + cssClassPrefix + 'select-item {' +
         '0% {' +
           '-webkit-transform: scale(1);' +
           'opacity: 1;' +
+          '}' +
+        '50% {' +
+          'transform: scale(2);' +
+          'opacity: 0;' +
         '}' +
         '100% {' +
-          '-webkit-transform: scale(2);' +
-          'opacity: 0;' +
+          'transform: scale(1);' +
+          'opacity: 1;' +
         '}' +
       '}'
 
