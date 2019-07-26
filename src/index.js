@@ -111,6 +111,11 @@
         item
           .classList
           .add('is-selected')
+
+          var main_icon = document.getElementsByClassName('blooming-menu__main');
+          //console.log(main_icon);
+          console.log(getComputedStyle(item.querySelector('button')));
+          main_icon[0].style.backgroundImage = getComputedStyle(item.querySelector('button')).backgroundImage;
       }
     })
 
@@ -141,7 +146,7 @@
     this.props.fatherElement = props.fatherElement || document.body
     this.props.elements = {}
     this.props.itemWidth = props.itemWidth || 50
-    this.props.mainContent = props.mainContent || '+'
+    this.props.mainContent = props.mainContent || ''
     this.props.CSSClassPrefix = props.CSSClassPrefix || 'blooming-menu__'
   }
 
@@ -265,11 +270,11 @@
       '  box-shadow: 0 8px 17px 0 rgba(0,0,0,.2);' +
       '}'
 
-    cssRules +=
-      '.' + cssClassPrefix + MAIN_CSS_CLASS + '.is-active {' +
-      '  -webkit-transform: rotate(45deg);' +
-      '  transform: rotate(45deg);' +
-      '}'
+    // cssRules +=
+    //   '.' + cssClassPrefix + MAIN_CSS_CLASS + '.is-active {' +
+    //   '  -webkit-transform: rotate(45deg);' +
+    //   '  transform: rotate(45deg);' +
+    //   '}'
 
     cssRules +=
       '.' + cssClassPrefix + MAIN_CONTENT_CSS_CLASS + ' {' +
@@ -278,11 +283,11 @@
       '  position: relative;' +
       '}'
 
-    cssRules +=
-      '.' + cssClassPrefix + MAIN_CSS_CLASS + '.is-active .' + cssClassPrefix + MAIN_CONTENT_CSS_CLASS + ' {' +
-      '  -webkit-transform: rotate(45deg);' +
-      '  transform: rotate(45deg);' +
-      '}'
+    // cssRules +=
+    //   '.' + cssClassPrefix + MAIN_CSS_CLASS + '.is-active .' + cssClassPrefix + MAIN_CONTENT_CSS_CLASS + ' {' +
+    //   '  -webkit-transform: rotate(45deg);' +
+    //   '  transform: rotate(45deg);' +
+    //   '}'
 
     // Items
     // -----
