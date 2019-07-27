@@ -81,42 +81,27 @@
   }
 
   BloomingMenu.prototype.selectItem = function (index) {
-    var self = this
+    var self = this;
 
-    // var btnWrappers = document.querySelector('.' + self.props.CSSClassPrefix + ITEM_BTN_WRAPPER_CSS_CLASS)
-    var main_icon = document.getElementsByClassName('blooming-menu__main');
-    // var closeMenu = function () {
-    //   // Close the menu
-    //   self.close()
+    function get_center_icon () {
+      var cssClassPrefix = self.props.CSSClassPrefix;
+      var center_icon_name = cssClassPrefix + MAIN_CSS_CLASS;
+      return document.getElementsByClassName(center_icon_name)[0]; }
 
-    //   // Hide all the menu items
-    //   self.props.elements.items.forEach(function (item) {
-    //     item.style.display = 'none'
-    //   })
+    function set_center_image_to_item_image(item) {
+        var btn = item.querySelector('button');
+        var img = getComputedStyle(btn).backgroundImage;
+        get_center_icon().style.backgroundImage = img; }
 
-    //   // Unbind the event listeners on `animationend`
-    //   document
-    //     .querySelector('.' + self.props.CSSClassPrefix + ITEM_BTN_WRAPPER_CSS_CLASS)
-    //     .removeEventListener(animationEndEventName(), closeMenu)
-    // }
-    // btnWrappers.addEventListener(animationEndEventName(), closeMenu)
-    //  main_icon.addEventListener(animationEndEventName(), closeMenu)
-    // Adding classes triggers an `animationend` event when the CSS animations
+    // Adding classes triggers `animationend` event when the CSS animations
     // end, triggering the closeMenu callback.
     this.props.elements.items.forEach(function (item, index_) {
       if (index_ !== index) {
-        item
-          .classList
-          .add('is-not-selected')
+        item.classList.add('is-not-selected')
+        item.classList.remove('is-selected')
       } else {
-        item
-          .classList
-          .add('is-selected')
-
-          // var main_icon = document.getElementsByClassName('blooming-menu__main');
-          //console.log(main_icon);
-          // console.log(getComputedStyle(item.querySelector('button')));
-          main_icon[0].style.backgroundImage = getComputedStyle(item.querySelector('button')).backgroundImage;
+        item.classList.add('is-selected')
+        set_center_image_to_item_image(item);
       }
     })
 
@@ -523,28 +508,58 @@
         '}' +
       '}'
 
-    //
-    cssRules +=
-      '@keyframes ' + cssClassPrefix + 'not-select-item {' +
-        '0% {' +
-          'transform: scale(1);' +
-          'opacity: 1;' +
-        '}' +
-        '100% {' +
-          'transform: scale(0);' +
-          'opacity: 0;' +
-        '}' +
-      '}' +
-      '@-webkit-keyframes ' + cssClassPrefix + 'not-select-item {' +
-        '0% {' +
-          '-webkit-transform: scale(1);' +
-          'opacity: 1;' +
-        '}' +
-        '100% {' +
-          '-webkit-transform: scale(0);' +
-          'opacity: 0;' +
-        '}' +
-      '}'
+      cssRules +=
+          '@keyframes click-ripple {' +
+             '50% {' +
+               'transform: scale(1.5, 1.5);' +
+               'opacity: 0;' +
+             '}' +
+             '99% {' +
+               'transform: scale(0.001, 0.001);' +
+               'opacity: 0;' +
+             '}' +
+             '100% {' +
+               'transform: scale(0.001, 0.001);' +
+               'opacity: 1;' +
+             '}' +
+          '}' +
+          '@-webkit-keyframes click-ripple {' +
+             '50% {' +
+               'transform: scale(1.5, 1.5);' +
+               'opacity: 0;' +
+             '}' +
+             '99% {' +
+               'transform: scale(0.001, 0.001);' +
+               'opacity: 0;' +
+             '}' +
+             '100% {' +
+               'transform: scale(0.001, 0.001);' +
+               'opacity: 1;' +
+             '}' +
+          '}'
+
+
+    // cssRules +=
+    //   '@keyframes ' + cssClassPrefix + 'not-select-item {' +
+    //     '0% {' +
+    //       'transform: scale(1);' +
+    //       'opacity: 1;' +
+    //     '}' +
+    //     '100% {' +
+    //       'transform: scale(0);' +
+    //       'opacity: 0;' +
+    //     '}' +
+    //   '}' +
+    //   '@-webkit-keyframes ' + cssClassPrefix + 'not-select-item {' +
+    //     '0% {' +
+    //       '-webkit-transform: scale(1);' +
+    //       'opacity: 1;' +
+    //     '}' +
+    //     '100% {' +
+    //       '-webkit-transform: scale(0);' +
+    //       'opacity: 0;' +
+    //     '}' +
+    //   '}'
 
     props.elements.styleSheet.innerHTML += cssRules
   }
