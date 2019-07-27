@@ -29,15 +29,8 @@
   // ------
 
   BloomingMenu.prototype.render = function () {
-    var css = ''
 
     createElements(this.props)
-
-    if (this.props.injectBaseCSS) {
-      css = getBaseCss(this.props)
-      injectCss(css, this.props.elements.styleSheet)
-    }
-
     setAnimation(this.props)
     bindEventListeners(this)
 
@@ -123,7 +116,6 @@
       this.props.itemsNum = props.itemsNum
     }
 
-    this.props.injectBaseCSS = props.injectBaseCSS === undefined
     this.props.startAngle = props.startAngle === undefined ? 90 : props.startAngle
     this.props.endAngle = props.endAngle === undefined ? 0 : props.endAngle
     this.props.radius = props.radius || 80
@@ -135,6 +127,19 @@
     this.props.mainContent = props.mainContent || ''
     this.props.CSSClassPrefix = props.CSSClassPrefix || 'blooming-menu__'
   }
+
+  // function reactifyElements (props)
+  // {
+  //     var container = <div class="blooming-menu__container"></div>;
+  //     var main_container =
+  //         <div class="blooming-menu__main-container">
+  //         <button class="blooming-menu__main is-inactive"
+  //                 style="background-image: url('" + props.base-image-url + "')">
+  //         <span class="blooming-menu__main-content"></span>
+  //         </button>
+  //         </div>;
+  // }
+
 
   function createElements (props) {
     // var docFragment = document.createDocumentFragment()
@@ -190,158 +195,6 @@
         item.style.opacity = 1
       })
     }, ((props.itemAnimationDelay * props.itemsNum) + props.animationDuration) * 1000)
-  }
-
-  function getBaseCss (props) {
-    var cssClassPrefix = props.CSSClassPrefix
-    var cssRules = ''
-
-    // Container
-    // ---------
-
-    cssRules +=
-      '.' + cssClassPrefix + CONTAINER_CSS_CLASS + ',' +
-      '.' + cssClassPrefix + CONTAINER_CSS_CLASS + ' * {' +
-      '  box-sizing: border-box;' +
-      '  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);' +
-      '  outline: none;' +
-      '  margin: 0;' +
-      '  padding: 0;' +
-      '}'
-
-    cssRules +=
-      '.' + cssClassPrefix + CONTAINER_CSS_CLASS + ' {' +
-      ' position: absolute;' +
-      '  left: 50%;' +
-      '  top: 50%;' +
-      '  -webkit-transform: translate(-50%, -50%);' +
-      '  transform: translate(-50%, -50%);' +
-      '  width: 50px;' +
-      '  height: 50px;' +
-      '  border-radius: 50%;' +
-      '  -webkit-user-select: none;' +
-      '  -moz-user-select: none;' +
-      '  -ms-user-select: none;' +
-      '  user-select: none;' +
-      '}'
-
-    cssRules +=
-      '.' + cssClassPrefix + CONTAINER_CSS_CLASS + ' {' +
-      '  transition: box-shadow .28s cubic-bezier(.4,0,.2,1);' +
-      '  box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);' +
-      '  width: 50px;' +
-      '  height: 50px;' +
-      '  border-radius: 50%;' +
-      '}'
-
-    // Main
-    // ----
-
-    cssRules +=
-      '.' + cssClassPrefix + MAIN_CSS_CLASS + ' {' +
-      '  border-radius: 50%;' +
-      '  width: 50px;' +
-      '  height: 50px;' +
-      '  position: absolute;' +
-      '  z-index: 1;' +
-      '  cursor: pointer;' +
-      '  transition: all .28s cubic-bezier(.4,0,.2,1);' +
-      '  border: none;' +
-      '  background-color: #A974A2;' +
-      '  color: white;' +
-      '}'
-
-    cssRules +=
-      '.' + cssClassPrefix + MAIN_CSS_CLASS + ':hover {' +
-      '  box-shadow: 0 8px 17px 0 rgba(0,0,0,.2);' +
-      '}'
-
-    // cssRules +=
-    //   '.' + cssClassPrefix + MAIN_CSS_CLASS + '.is-active {' +
-    //   '  -webkit-transform: rotate(45deg);' +
-    //   '  transform: rotate(45deg);' +
-    //   '}'
-
-    cssRules +=
-      '.' + cssClassPrefix + MAIN_CONTENT_CSS_CLASS + ' {' +
-      '  font-size: 32px;' +
-      '  line-height: 60%;' +
-      '  position: relative;' +
-      '}'
-
-    // cssRules +=
-    //   '.' + cssClassPrefix + MAIN_CSS_CLASS + '.is-active .' + cssClassPrefix + MAIN_CONTENT_CSS_CLASS + ' {' +
-    //   '  -webkit-transform: rotate(45deg);' +
-    //   '  transform: rotate(45deg);' +
-    //   '}'
-
-    // Items
-    // -----
-
-    cssRules +=
-      '.' + cssClassPrefix + ITEM_CSS_CLASS + ' {' +
-      '  position: absolute;' +
-      '  bottom: 5px;' +
-      '  left: 5px;' +
-      '  transition:' +
-      '    -webkit-transform .28s cubic-bezier(.4,0,.2,1),' +
-      '    box-shadow .28s cubic-bezier(.4,0,.2,1),' +
-      '    opacity .28s cubic-bezier(.4,0,.2,1)' +
-      '  ;' +
-      '  transition:' +
-      '    transform .28s cubic-bezier(.4,0,.2,1),' +
-      '    box-shadow .28s cubic-bezier(.4,0,.2,1),' +
-      '    opacity .28s cubic-bezier(.4,0,.2,1)' +
-      '  ;' +
-      '  width: 40px;' +
-      '  height: 40px;' +
-      '  border-radius: 50%;' +
-      '}'
-
-    cssRules +=
-      '.' + cssClassPrefix + ITEM_CSS_CLASS + ':hover {' +
-      '  box-shadow: 0 8px 17px 0 rgba(0,0,0,.2);' +
-      '}'
-
-    cssRules +=
-      '.' + cssClassPrefix + ITEM_CSS_CLASS + '.is-selected:hover {' +
-      '  box-shadow: 0 0 0 0;' +
-      '  transition: box-shadow 0s;' +
-      '}'
-
-    cssRules +=
-    '.' + cssClassPrefix + ITEMS_CONTAINER_CSS_CLASS + ' {' +
-      '  list-style-type: none;' +
-      '}'
-
-    cssRules +=
-      '.' + cssClassPrefix + ITEM_BTN_WRAPPER_CSS_CLASS + ' {' +
-      '  width: 100%;' +
-      '  height: 100%;' +
-      '  background-color: #6B9EB8;' +
-      '  border-radius: 50%;' +
-      '}'
-
-    cssRules +=
-    '.' + cssClassPrefix + ITEM_BTN_CSS_CLASS + ' {' +
-      '  cursor: pointer;' +
-      '  border-radius: 50%;' +
-      '  border: none;' +
-      '  background-color: transparent;' +
-      '  width: 100%;' +
-      '  height: 100%;' +
-      '  box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);' +
-      '  transition:' +
-      '    box-shadow .28s cubic-bezier(.4,0,.2,1),' +
-      '    opacity .28s cubic-bezier(.4,0,.2,1)' +
-      '  ;' +
-      '  background-size: 50%;' +
-      '  background-position: center center;' +
-      '  background-repeat: no-repeat;' +
-      '  opacity: 0.8;' +
-      '}'
-
-    return cssRules
   }
 
   function injectCss (css, styleElement) {
